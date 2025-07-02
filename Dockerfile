@@ -28,4 +28,6 @@ RUN pip3 install selenium pytest pytest-bdd pytest-html
 WORKDIR /app
 COPY . /app
 
-CMD ["pytest"]
+CMD ["sh", "-c", "pytest -m \"$PYTEST_MARK\""]
+# Set the environment variable for pytest marker
+ENV PYTEST_MARK="smoke" 

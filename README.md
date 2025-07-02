@@ -8,17 +8,22 @@ This project is a Python-based automation framework using Selenium WebDriver. It
 - Test report and log generation
 - Support for multiple environments
 - Easy configuration and extensibility
-
 ## Project Structure
 
 ```
 SeleniumAutomationProject/
-├── reports/           # Test reports and logs
+├── reports/           # Test reports
 ├── tests/             # Test cases
+├── features/          # BDD feature files
 ├── src/               # Source code and utilities
-├── .gitignore
-├── requirements.txt
-└── README.md
+├── seleniumenv/       # Virtual environment (ignored)
+├── conftest.py        # Pytest configuration and fixtures
+├── pytest.ini         # Pytest settings
+├── Dockerfile         # Docker build instructions
+├── Jenkinsfile        # Jenkins CI/CD pipeline
+├── .gitignore         # Git ignore rules
+├── requirements.txt   # Python dependencies
+└── README.md          #
 ```
 
 ## Getting Started
@@ -56,7 +61,7 @@ You can also build and run the project using Docker:
 
 2. **Run the tests in a Docker container:**
    ```sh
-   docker run --rm -v "$PWD:/app" bdd-tests
+   docker run --rm -v "$PWD:/app" -e PYTEST_MARK=smoke bdd-tests
    ```
 
 ## Requirements
