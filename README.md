@@ -45,6 +45,20 @@ SeleniumAutomationProject/
    pytest
    ```
 
+## Running with Docker
+
+You can also build and run the project using Docker:
+
+1. **Build the Docker image:**
+   ```sh
+   docker build -t bdd-tests .
+   ```
+
+2. **Run the tests in a Docker container:**
+   ```sh
+   docker run --rm -v "$PWD:/app" bdd-tests
+   ```
+
 ## Requirements
 
 - Python 3.7+

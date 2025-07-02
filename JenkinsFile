@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/RubinaGill/PytestFramework.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build('bdd-test-image')
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    docker.image('bdd-test-image').inside {
+                        sh 'pytest --html=report.html --self-contained-html'
+                    }
+                }
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '.',
+                    reportFiles: 'report.html',
+                    reportName: 'Test Report'
+                ])
+            }
+        }
+    }
+}
