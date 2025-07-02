@@ -47,7 +47,7 @@ SeleniumAutomationProject/
 
 4. **Run tests:**
    ```sh
-   pytest
+   pytest --browser=chrome
    ```
 
 ## Running with Docker
