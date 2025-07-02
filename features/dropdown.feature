@@ -1,3 +1,4 @@
+@regression
 Feature: Dropdown Selection
 
   @Dropdown

@@ -1,3 +1,4 @@
+@regression
 Feature: File Upload Functionality
 
   @FileUpload
