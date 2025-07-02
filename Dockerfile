@@ -26,10 +26,12 @@ RUN pip3 install --upgrade pip
 RUN pip3 install selenium pytest pytest-bdd pytest-html
 
 ENV IN_DOCKER=true
+ENV PYTEST_MARK="smoke" 
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 WORKDIR /app
 COPY . /app
 
 CMD ["sh", "-c", "pytest -m \"$PYTEST_MARK\""]
 # Set the environment variable for pytest marker
-ENV PYTEST_MARK="smoke" 
