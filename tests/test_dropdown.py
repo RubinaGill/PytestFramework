@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException, UnexpectedTagNameException
 from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver.support.ui import Select
 
@@ -11,12 +12,18 @@ def go_to_dropdown_page(browser, config_data):
 
 @when(parsers.parse('the user selects "{option_text}"'))
 def select_option(browser, option_text):
-    select_element = browser.find_element(*DropdownPage.SELECT_BOX)
-    select = Select(select_element)
-    select.select_by_visible_text(option_text)
+    try:
+        select_element = browser.find_element(*DropdownPage.SELECT_BOX)
+        select = Select(select_element)
+        select.select_by_visible_text(option_text)
+    except (NoSuchElementException, UnexpectedTagNameException) as e:
+        assert False, f"Dropdown interaction failed: {e}"
 
 @then(parsers.parse('"{option_text}" should be selected'))
 def verify_option_selected(browser, option_text):
-    select_element = browser.find_element(*DropdownPage.SELECT_BOX)
-    select = Select(select_element)
-    assert select.first_selected_option.text == option_text
+    try:
+        select_element = browser.find_element(*DropdownPage.SELECT_BOX)
+        select = Select(select_element)
+        assert select.first_selected_option.text == option_text
+    except (NoSuchElementException, UnexpectedTagNameException) as e:
+        assert False, f"Dropdown interaction failed: {e}"
