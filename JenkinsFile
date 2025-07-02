@@ -17,14 +17,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "🔨 Building Docker image..."
-                sh 'docker build -t bdd-tests .'
+                sh '/opt/homebrew/bin/docker build -t bdd-tests .'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo "🚀 Running tests inside Docker..."
-                sh 'docker run --rm -v "$PWD:/app" -e IN_DOCKER=$IN_DOCKER bdd-tests'
+                sh '/opt/homebrew/bin/docker run --rm -v "$PWD:/app" -e IN_DOCKER=$IN_DOCKER bdd-tests'
             }
         }
 
