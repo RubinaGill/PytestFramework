@@ -25,6 +25,8 @@ RUN apt-get update && apt-get install -y \
 RUN pip3 install --upgrade pip
 RUN pip3 install selenium pytest pytest-bdd pytest-html
 
+ENV IN_DOCKER=true
+
 WORKDIR /app
 COPY . /app
 
