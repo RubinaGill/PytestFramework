@@ -1,0 +1,22 @@
+from pytest_bdd import scenarios, given, when, then, parsers
+from selenium.webdriver.support.ui import Select
+
+from pages.dropdown_page import DropdownPage
+
+scenarios('dropdown.feature')
+
+@given("the user is on the dropdown page")
+def go_to_dropdown_page(browser, config_data):
+    browser.get(config_data["url"]+DropdownPage.URL_KEY)
+
+@when(parsers.parse('the user selects "{option_text}"'))
+def select_option(browser, option_text):
+    select_element = browser.find_element(*DropdownPage.SELECT_BOX)
+    select = Select(select_element)
+    select.select_by_visible_text(option_text)
+
+@then(parsers.parse('"{option_text}" should be selected'))
+def verify_option_selected(browser, option_text):
+    select_element = browser.find_element(*DropdownPage.SELECT_BOX)
+    select = Select(select_element)
+    assert select.first_selected_option.text == option_text
