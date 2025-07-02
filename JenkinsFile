@@ -1,42 +1,54 @@
 pipeline {
     agent any
 
+    environment {
+        IN_DOCKER = "true"
+        REPORT_DIR = "reports"
+        REPORT_FILE = "report.html"
+    }
+
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/RubinaGill/PytestFramework.git'
+                git 'https://your-git-repo-url.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build('bdd-test-image')
-                }
+                echo "🔨 Building Docker image..."
+                sh 'docker build -t bdd-tests .'
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    docker.image('bdd-test-image').inside {
-                        sh 'pytest --html=report.html --self-contained-html'
-                    }
-                }
+                echo "🚀 Running tests inside Docker..."
+                sh 'docker run --rm -v "$PWD:/app" -e IN_DOCKER=$IN_DOCKER bdd-tests'
             }
         }
 
-        stage('Publish Report') {
+        stage('Archive Reports') {
             steps {
+                echo "📁 Archiving test report..."
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: '.',
-                    reportFiles: 'report.html',
-                    reportName: 'Test Report'
+                    reportDir: "${REPORT_DIR}",
+                    reportFiles: "${REPORT_FILE}",
+                    reportName: "BDD Test Report"
                 ])
             }
+        }
+    }
+
+    post {
+        always {
+            echo "✅ Pipeline complete"
+        }
+        failure {
+            echo "❌ Tests failed"
         }
     }
 }
