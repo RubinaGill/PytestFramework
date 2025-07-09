@@ -20,10 +20,16 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxrandr2 \
     xdg-utils \
-    --no-install-recommends
+    --no-install-recommends \
+ && apt-get clean \   
+ && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip
-RUN pip3 install selenium pytest pytest-bdd pytest-html
+RUN pip3 install selenium pytest pytest-bdd pytest-html allure-pytest
+RUN wget https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz \
+ && tar -xvzf allure-2.24.0.tgz -C /opt/ \
+ && ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure \
+ && rm allure-2.24.0.tgz
 
 ENV IN_DOCKER=true
 ENV PYTEST_MARK="smoke" 
@@ -33,5 +39,6 @@ ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 WORKDIR /app
 COPY . /app
 
-CMD ["sh", "-c", "pytest -m \"$PYTEST_MARK\""]
-# Set the environment variable for pytest marker
+CMD ["sh", "-c", "pytest -m \"$PYTEST_MARK\" \
+    --html=reports/html-report.html --self-contained-html && \
+    allure generate reports/allure-results -o reports/allure-report --clean"]
