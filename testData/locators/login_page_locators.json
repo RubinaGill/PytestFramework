@@ -1,0 +1,18 @@
+{
+  "username": {
+    "by": "id",
+    "value": "username"
+  },
+  "password": {
+    "by": "id",
+    "value": "password"
+  },
+  "login_button": {
+    "by": "css selector",
+    "value": "button.radius"
+  },
+  "flash_message": {
+    "by": "id",
+    "value": "flash"
+  }
+}
