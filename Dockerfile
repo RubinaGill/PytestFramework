@@ -21,11 +21,11 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     xdg-utils \
     --no-install-recommends \
- && apt-get clean \   
+ && apt-get clean \ 
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip
-RUN pip3 install selenium pytest pytest-bdd pytest-html allure-pytest
+COPY requirements.txt .
+RUN pip install --upgrade pip && pip install -r requirements.txt
 RUN wget https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz \
  && tar -xvzf allure-2.24.0.tgz -C /opt/ \
  && ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure \
@@ -37,8 +37,7 @@ ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 WORKDIR /app
-COPY . /app
+COPY . .
 
-CMD ["sh", "-c", "pytest -m \"$PYTEST_MARK\" \
-    --html=reports/html-report.html --self-contained-html && \
-    allure generate reports/allure-results -o reports/allure-report --clean"]
+CMD ["sh", "-c", "pytest -m \"$PYTEST_MARK\" --alluredir=reports/allure-results --html=reports/html-report.html --self-contained-html && allure generate reports/allure-results -o reports/allure-report --clean"]
+
