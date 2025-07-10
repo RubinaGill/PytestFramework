@@ -10,24 +10,27 @@ def open_login_page(browser, config_data):
 
 @when(parsers.parse('the user logs in with username "{username}" and password "{password}"'))
 def login_with_credentials(browser, username, password):
-    username_elem = browser.find_element(*LoginPage.USERNAME)
+    loginPage = LoginPage()
+    username_elem = loginPage.get_username_element(browser)
     username_elem.clear()
     username_elem.send_keys(username)
-    password_elem = browser.find_element(*LoginPage.PASSWORD)
+    password_elem = loginPage.get_password_element(browser)
     password_elem.clear()
     password_elem.send_keys(password)
-    browser.find_element(*LoginPage.LOGIN_BUTTON).click()
-    
+    loginPage.get_login_button_element(browser).click()
+
 @then("the user should be redirected to the secure area")
 def verify_secure_area(browser):
     assert "/secure" in browser.current_url, f"Expected '/secure' in URL, got {browser.current_url}"
 
 @then("a success message should be displayed")
 def verify_success_message(browser):
-    flash = browser.find_element(*LoginPage.FLASH_MESSAGE).text
+    loginPage = LoginPage()
+    flash = loginPage.get_flash_message_element(browser).text
     assert "You logged into a secure area!" in flash, f"Expected success message not found in: {flash}"
 
 @then("an error message should be displayed")
 def verify_error_message(browser):
-    flash = browser.find_element(*LoginPage.FLASH_MESSAGE).text
+    loginPage = LoginPage()
+    flash = loginPage.get_flash_message_element(browser).text
     assert "Your username is invalid!" in flash or "Your password is invalid!" in flash, f"Expected error message not found in: {flash}"

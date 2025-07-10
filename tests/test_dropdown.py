@@ -20,8 +20,9 @@ def step_should_be_skipped():
 
 @when(parsers.parse('the user selects "{option_text}"'))
 def select_option(browser, option_text):
+    dropdown_page = DropdownPage()
     try:
-        select_element = browser.find_element(*DropdownPage.SELECT_BOX)
+        select_element = dropdown_page.get_select_element(browser)
         select = Select(select_element)
         select.select_by_visible_text(option_text)
     except (NoSuchElementException, UnexpectedTagNameException) as e:
@@ -29,8 +30,9 @@ def select_option(browser, option_text):
 
 @then(parsers.parse('"{option_text}" should be selected'))
 def verify_option_selected(browser, option_text):
+    dropdown_page = DropdownPage()
     try:
-        select_element = browser.find_element(*DropdownPage.SELECT_BOX)
+        select_element = dropdown_page.get_select_element(browser)
         select = Select(select_element)
         assert select.first_selected_option.text == option_text
     except (NoSuchElementException, UnexpectedTagNameException) as e:

@@ -1,5 +1,3 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from pytest_bdd import scenarios, given, when, then, parsers
 import os
 
@@ -16,18 +14,18 @@ def upload_file(browser, filename):
     filepath = os.path.abspath(filename)
     assert os.path.exists(filepath), f"File not found: {filepath}"
 
-    wait = WebDriverWait(browser, 10)
-    upload_input = wait.until(EC.presence_of_element_located(UploadPage.FILE_INPUT))
+    upload_page = UploadPage()
+    upload_input = upload_page.get_file_input_element(browser)
     upload_input.send_keys(filepath)
 
-    submit_btn = wait.until(EC.element_to_be_clickable(UploadPage.SUBMIT_BUTTON))
+    submit_btn = upload_page.get_upload_button_element(browser)
     submit_btn.click()
 
 @then("the file should be successfully uploaded")
 def verify_upload_success(browser):
-    wait = WebDriverWait(browser, 10)
-    header = wait.until(EC.presence_of_element_located(UploadPage.HEADER)).text
+    upload_page = UploadPage()
+    header = upload_page.get_success_message_element(browser).text
     assert "File Uploaded!" in header
 
-    uploaded_file = wait.until(EC.presence_of_element_located(UploadPage.RESULT_FILENAME)).text
+    uploaded_file = upload_page.get_result_filename_element(browser).text
     assert uploaded_file.strip() != ""
