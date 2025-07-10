@@ -10,6 +10,14 @@ scenarios('dropdown.feature')
 def go_to_dropdown_page(browser, config_data):
     browser.get(config_data["url"]+DropdownPage.URL_KEY)
 
+@then("the step should fail")
+def step_should_fail():
+    assert False, "This step is expected to fail"
+
+@then("this step must be skipped")
+def step_should_be_skipped():
+    pass   
+
 @when(parsers.parse('the user selects "{option_text}"'))
 def select_option(browser, option_text):
     try:
