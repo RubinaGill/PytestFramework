@@ -6,7 +6,7 @@ import shutil
 from selenium.webdriver.chrome.service import Service
 
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from utils.environment import is_running_in_docker
+from src.utils.environment import is_running_in_docker
 
 def create_browser(browser_name):
     if browser_name == "chrome":

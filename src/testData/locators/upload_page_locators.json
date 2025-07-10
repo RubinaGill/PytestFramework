@@ -1,0 +1,18 @@
+{
+  "file_input": {
+    "by": "id",
+    "value": "file-upload"
+  },
+  "submit_button": {
+    "by": "id",
+    "value": "file-submit"
+  },
+  "header": {
+    "by": "tag name",
+    "value": "h3"
+  },
+  "result_filename": {
+    "by": "id",
+    "value": "uploaded-files"
+  }
+}
