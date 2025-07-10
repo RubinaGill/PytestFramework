@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from utils.locator_loader import load_locators
+from src.utils.locator_loader import load_locators
 
 class BasePage:
     BY_MAPPING = {

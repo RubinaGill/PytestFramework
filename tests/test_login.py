@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, given, when, then, parsers
 
-from pages.login_page import LoginPage
+from src.pages.login_page import LoginPage
 
 scenarios('login.feature')
 

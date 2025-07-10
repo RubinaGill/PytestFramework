@@ -1,7 +1,7 @@
 from pytest_bdd import scenarios, given, when, then, parsers
 import os
 
-from pages.upload_page import UploadPage
+from src.pages.upload_page import UploadPage
 
 scenarios('file_upload.feature')
 

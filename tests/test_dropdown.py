@@ -2,7 +2,7 @@ from selenium.common.exceptions import NoSuchElementException, UnexpectedTagName
 from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver.support.ui import Select
 
-from pages.dropdown_page import DropdownPage
+from src.pages.dropdown_page import DropdownPage
 
 scenarios('dropdown.feature')
 

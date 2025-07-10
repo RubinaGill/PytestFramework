@@ -6,7 +6,7 @@ import os
 import shutil
 from datetime import datetime
 
-from utils import config_loader, driver_factory,logger
+from src.utils import config_loader, driver_factory,logger
 
 feature_tags = set()
 

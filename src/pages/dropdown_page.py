@@ -1,4 +1,4 @@
-from pages.base_page import BasePage
+from src.pages.base_page import BasePage
 
 class DropdownPage(BasePage):
     URL_KEY = "/dropdown"
