@@ -5,25 +5,33 @@ This project is a Python-based automation framework using Selenium WebDriver. It
 ## Features
 
 - Automated browser testing with Selenium
+- Modular Page Object Model (POM)
+- Centralized locators in JSON files
+- Pytest-BDD for Gherkin-style scenarios
 - Test report and log generation
 - Support for multiple environments
+- Docker-ready for isolated test execution
+- Jenkins pipeline integration
 - Easy configuration and extensibility
 ## Project Structure
 
 ```
 SeleniumAutomationProject/
-├── reports/           # Test reports
-├── tests/             # Test cases
-├── features/          # BDD feature files
-├── src/               # Source code and utilities
-├── seleniumenv/       # Virtual environment (ignored)
-├── conftest.py        # Pytest configuration and fixtures
-├── pytest.ini         # Pytest settings
-├── Dockerfile         # Docker build instructions
-├── Jenkinsfile        # Jenkins CI/CD pipeline
-├── .gitignore         # Git ignore rules
-├── requirements.txt   # Python dependencies
-└── README.md          #
+├── reports/               # Test reports
+├── tests/                 # Test cases (BDD step definitions)
+├── features/              # Gherkin .feature files
+├── src/
+│   ├── pages/             # Page Object classes
+│   ├── utils/             # Utilities like locator loaders
+│   └── testData/locators/ # JSON locator files
+├── seleniumenv/           # Virtual environment (ignored)
+├── conftest.py            # Pytest configurations & fixtures
+├── pytest.ini             # Pytest settings
+├── Dockerfile             # Docker build instructions
+├── Jenkinsfile            # Jenkins CI/CD pipeline
+├── .gitignore             # Git ignore rules
+├── requirements.txt       # Python dependencies
+└── README.md              # Project description
 ```
 
 ## Getting Started
@@ -47,8 +55,23 @@ SeleniumAutomationProject/
 
 4. **Run tests:**
    ```sh
-   pytest --browser=chrome
+   pytest --browser=chrome --alluredir=reports/allure-results
    ```
+
+## Locator Management
+   - All page locators are stored in JSON files under `src/testData/locators/`.
+
+   - Example locator file (`login_page_locators.json`):
+
+   ```json
+   {
+   "username": { "by": "id", "value": "username" },
+   "password": { "by": "id", "value": "password" },
+   "login_button": { "by": "css selector", "value": "button.radius" }
+   }
+   ```
+
+   - Locators are loaded in page classes through a shared BasePage class.
 
 ## Running with Docker
 
@@ -63,6 +86,12 @@ You can also build and run the project using Docker:
    ```sh
    docker run --rm -v "$PWD:/app" -e PYTEST_MARK=smoke bdd-tests
    ```
+
+## CI/CD
+
+- Jenkins pipeline (Jenkinsfile) to automate builds and test execution.
+
+- Easily integrates into most CI/CD environments.
 
 ## Requirements
 
